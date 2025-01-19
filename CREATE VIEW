@@ -1,0 +1,76 @@
+What is a CREATE VIEW Statement in SQL?
+A VIEW in SQL is a virtual table based on the result of a SQL query. It does not store data itself but retrieves data from underlying tables whenever it is queried. You can think of it as a saved query that simplifies complex operations or abstracts data access.
+
+Syntax
+
+CREATE VIEW view_name AS
+SELECT column1, column2, ...
+FROM table_name
+WHERE condition;
+Why Use Views?
+Simplify Queries: Encapsulate complex joins or calculations.
+Security: Restrict user access to specific columns or rows.
+Reusability: Use the view in multiple queries without rewriting the SQL logic.
+Maintainability: Abstract underlying table structure changes from end users.
+Examples
+1. Basic View Creation
+Create a view to display high-salary employees.
+
+CREATE VIEW HighSalaryEmployees AS
+SELECT employee_id, name, salary
+FROM employees
+WHERE salary > 50000;
+You can now query the view as:
+
+SELECT * FROM HighSalaryEmployees;
+2. View with Aggregates
+Create a view to display the total sales for each product.
+
+CREATE VIEW TotalSales AS
+SELECT product_id, SUM(quantity) AS total_quantity, SUM(price * quantity) AS total_sales
+FROM sales
+GROUP BY product_id;
+Query the view:
+
+SELECT * FROM TotalSales WHERE total_sales > 10000;
+3. View with Joins
+Create a view to show customer orders with product details.
+
+CREATE VIEW CustomerOrders AS
+SELECT customers.name AS customer_name, orders.order_id, products.product_name, orders.quantity
+FROM orders
+JOIN customers ON orders.customer_id = customers.customer_id
+JOIN products ON orders.product_id = products.product_id;
+Query the view:
+
+sql
+Copy
+Edit
+SELECT * FROM CustomerOrders WHERE customer_name = 'John Doe';
+Updating a View
+You can update an existing view using the CREATE OR REPLACE VIEW statement.
+
+CREATE OR REPLACE VIEW HighSalaryEmployees AS
+SELECT employee_id, name, department, salary
+FROM employees
+WHERE salary > 60000;
+Dropping a View
+To remove a view, use the DROP VIEW statement.
+
+DROP VIEW HighSalaryEmployees;
+Limitations of Views
+Views do not store data; they depend on the underlying tables.
+Some views may not support INSERT, UPDATE, or DELETE operations, especially if they involve complex joins or aggregates.
+Changes in the underlying table structure may require modifying the view.
+Practice Questions
+Create a view that shows employees hired after 2020.
+Create a view to display product categories and their total sales.
+Modify a view to include an additional column for employee department.
+Let me know if you'd like help with these! 😊
+
+
+
+
+
+
+
