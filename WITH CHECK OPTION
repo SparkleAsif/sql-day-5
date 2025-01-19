@@ -1,0 +1,82 @@
+What is WITH CHECK OPTION in SQL?
+The WITH CHECK OPTION is used when creating or modifying a view to ensure that any INSERT or UPDATE operations performed through the view meet the conditions defined in the view's SELECT statement.
+
+If a row being inserted or updated does not satisfy the view's condition, the operation will be rejected.
+
+Why Use WITH CHECK OPTION?
+Ensures data integrity by enforcing the view's conditions.
+Prevents users from accidentally or intentionally bypassing the conditions of the view when performing INSERT or UPDATE operations.
+Guarantees that the view always reflects the defined criteria.
+Syntax
+
+CREATE VIEW view_name AS
+SELECT column1, column2, ...
+FROM table_name
+WHERE condition
+WITH CHECK OPTION;
+Example
+1. Creating a View Without WITH CHECK OPTION
+
+CREATE VIEW HighSalaryEmployees AS
+SELECT employee_id, name, salary
+FROM employees
+WHERE salary > 50000;
+The view only shows employees with salaries greater than 50,000.
+You can still insert or update rows through this view, even if the salary is not greater than 50,000.
+2. Adding WITH CHECK OPTION
+
+CREATE VIEW HighSalaryEmployees AS
+SELECT employee_id, name, salary
+FROM employees
+WHERE salary > 50000
+WITH CHECK OPTION;
+Now:
+
+Insert Example:
+
+INSERT INTO HighSalaryEmployees (employee_id, name, salary)
+VALUES (101, 'John Doe', 40000);
+Result: Fails because the salary does not meet the condition (salary > 50000).
+
+Update Example:
+
+UPDATE HighSalaryEmployees
+SET salary = 45000
+WHERE employee_id = 102;
+Result: Fails because the updated salary would no longer meet the condition.
+
+How It Works
+The WITH CHECK OPTION enforces that:
+New rows added through the view must satisfy the view's condition.
+Updated rows must still satisfy the view's condition after the update.
+If the operation violates the condition, it is rejected.
+Practical Use Case
+Base Table
+
+CREATE TABLE employees (
+    employee_id INT PRIMARY KEY,
+    name VARCHAR(50),
+    salary DECIMAL(10, 2),
+    department VARCHAR(50)
+);
+View for IT Department
+
+CREATE VIEW IT_Employees AS
+SELECT employee_id, name, salary
+FROM employees
+WHERE department = 'IT'
+WITH CHECK OPTION;
+Allowed: Insert a new employee in the IT department:
+
+INSERT INTO IT_Employees (employee_id, name, salary)
+VALUES (201, 'Alice', 60000);
+Not Allowed: Insert a new employee in another department:
+
+INSERT INTO IT_Employees (employee_id, name, salary)
+VALUES (202, 'Bob', 55000);
+Result: Fails because the department is not 'IT'.
+
+Benefits of WITH CHECK OPTION
+Enforces logical consistency in views.
+Prevents accidental violations of business rules or constraints.
+Let me know if you'd like more examples or further clarification! 😊
