@@ -1,0 +1,65 @@
+What is the HAVING Clause in SQL?
+The HAVING clause is used to filter the results of groups created by the GROUP BY clause. Unlike the WHERE clause, which filters rows before grouping, HAVING filters groups after aggregate functions have been applied.
+
+Syntax
+
+SELECT column_name, aggregate_function(column_name)
+FROM table_name
+GROUP BY column_name
+HAVING condition;
+Key Points
+HAVING is typically used with aggregate functions (e.g., SUM(), AVG(), COUNT(), etc.).
+It filters groups of rows, not individual rows.
+WHERE and HAVING can be used together in a query.
+Examples
+1. Basic HAVING Example
+Find departments with a total salary greater than 50,000.
+
+SELECT department, SUM(salary) AS total_salary
+FROM employees
+GROUP BY department
+HAVING SUM(salary) > 50000;
+Result:
+
+department	total_salary
+IT	70000
+HR	60000
+2. Using HAVING with COUNT()
+Find departments with more than 5 employees.
+
+SELECT department, COUNT(*) AS employee_count
+FROM employees
+GROUP BY department
+HAVING COUNT(*) > 5;
+Result:
+
+department	employee_count
+IT	8
+HR	6
+3. Combining WHERE and HAVING
+Find departments with a total salary greater than 50,000, but only include employees hired after 2020.
+
+SELECT department, SUM(salary) AS total_salary
+FROM employees
+WHERE hire_date > '2020-01-01'
+GROUP BY department
+HAVING SUM(salary) > 50000;
+WHERE filters rows based on the hire date before grouping.
+HAVING filters groups based on the total salary.
+4. Using Multiple Conditions in HAVING
+Find departments with a total salary greater than 50,000 and less than 100,000.
+
+SELECT department, SUM(salary) AS total_salary
+FROM employees
+GROUP BY department
+HAVING SUM(salary) > 50000 AND SUM(salary) < 100000;
+Difference Between WHERE and HAVING
+Feature	WHERE Clause	HAVING Clause
+Purpose	Filters individual rows.	Filters groups of rows.
+Used With	Any column in the table.	Aggregate functions and grouped results.
+Order of Execution	Applied before grouping.	Applied after grouping.
+Practice Questions
+Find products with total sales greater than 10,000 from a sales table.
+List customers with more than 3 orders from an orders table.
+Display categories with an average product price above 50.
+Let me know if you’d like solutions or further explanation! 😊
